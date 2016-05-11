@@ -45,7 +45,7 @@ def read(data=None):
                 # GPU frequency
                 vl.dispatch(type='cpufreq', type_instance='gpu_clock',
                             values=[1e6 * float(gpu.find('clocks/graphics_clock').text.split()[0])])
-                # GPU frequency
+                # GPU memory frequency
                 vl.dispatch(type='cpufreq', type_instance='mem_clock',
                             values=[1e6 * float(gpu.find('clocks/mem_clock').text.split()[0])])
  
