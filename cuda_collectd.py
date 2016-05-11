@@ -12,8 +12,8 @@ def read(data=None):
         root = ET.fromstring(out)
 
         for gpu in root.iter('gpu'):
-                # GPU instance
-                vl.plugin_instance = 'cuda-%s' % (gpu.attrib['id'])
+                # GPU id
+                vl.plugin_instance = 'gpu-%s' % (gpu.find('minor_number').text)
 
                 # GPU utilization
                 vl.dispatch(type='percent', type_instance='gpu_util',
@@ -22,7 +22,7 @@ def read(data=None):
                 vl.dispatch(type='temperature',
                             values=[float(gpu.find('temperature/gpu_temp').text.split()[0])])
                 # GPU power draw
-                vl.dispatch(type='power', type_instance='draw',
+                vl.dispatch(type='power', type_instance='power_draw',
                             values=[float(gpu.find('power_readings/power_draw').text.split()[0])])
                 # GPU memory utilization
                 vl.dispatch(type='percent', type_instance='mem_util',
@@ -47,4 +47,3 @@ def read(data=None):
                             values=[1e6 * float(gpu.find('clocks/mem_clock').text.split()[0])])
 
 collectd.register_read(read)
-
