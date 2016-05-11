@@ -13,8 +13,20 @@ Requires `collectd-python` package. On Centos 7,
     $ yum install collectd-python
 
 While this is somewhat environment specific, based on the configuration 
-in `10-cuda-collectd.conf` the module files should be located inside `/etc/collectd.d`,
+in `10-cuda-collectd.conf`, the module files should be located inside `/etc/collectd.d`,
 
     $ cp cuda_collectd.py /etc/collectd.d/
-    $ cp 10-cuda-collectd.conf /etc/collectd.d/
+    
+Use puppet to create module files or manually create one,    
 
+    $ vim 10-cuda-collectd.conf
+    
+    <LoadPlugin python>		
+       Globals true		
+    </LoadPlugin>		
+		
+    <Plugin python>		
+        ModulePath "/etc/collectd.d"		
+        Interactive False		
+        Import "cuda_collectd"		
+    </Plugin>
