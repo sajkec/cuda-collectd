@@ -1,20 +1,23 @@
 #!/usr/bin/env python
-
+ 
 import collectd
 import subprocess
 import xml.etree.ElementTree as ET
-
+ 
+def configure_callback(conf):
+        collectd.info('Configured with')
+ 
 def read(data=None):
         vl = collectd.Values(type='gauge')
         vl.plugin = 'cuda'
-
+ 
         out = subprocess.Popen(['nvidia-smi', '-q', '-x'], stdout=subprocess.PIPE).communicate()[0]
         root = ET.fromstring(out)
-
+ 
         for gpu in root.iter('gpu'):
                 # GPU id
                 vl.plugin_instance = 'gpu-%s' % (gpu.find('minor_number').text)
-
+ 
                 # GPU utilization
                 vl.dispatch(type='percent', type_instance='gpu_util',
                             values=[float(gpu.find('utilization/gpu_util').text.split()[0])])
@@ -45,5 +48,6 @@ def read(data=None):
                 # GPU frequency
                 vl.dispatch(type='cpufreq', type_instance='mem_clock',
                             values=[1e6 * float(gpu.find('clocks/mem_clock').text.split()[0])])
-
+ 
+collectd.register_config(configure_callback)
 collectd.register_read(read)
