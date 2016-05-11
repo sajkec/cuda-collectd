@@ -1,24 +1,20 @@
 # cuda-collectd
 
-`cuda-collectd` is a `collectd-python` plugin for pushing statistics from
-the `nvidia-smi` utility to collectd.
+`cuda-collectd` is a `collectd-python` plugin for pushing statistics from 
+the `nvidia-smi` utility to collectd. 
+
+This project is forked from `bgamari/cuda-collectd`and changed to comply
+with my configuration and needs.
 
 ## installation
 
-While this is somewhat environment specific, the installation procedure
-will likely look something like,
+Requires `collectd-python` package. On Centos 7,
 
-    $ cp cuda_collectd.py /usr/lib/collectd
+    $ yum install collectd-python
 
-then adding the following stanza to `collectd.conf`,
+While this is somewhat environment specific, based on the configuration 
+in `10-cuda-collectd.conf` the module files should be located inside `/etc/collectd.d`,
 
-    <LoadPlugin python>
-      Globals true
-    </LoadPlugin>
-
-    <Plugin python>
-      ModulePath "/usr/lib/collectd"
-      Interactive False
-      Import "cuda_collectd"
-    </Plugin>
+    $ cp cuda_collectd.py /etc/collectd.d/
+    $ cp 10-cuda-collectd.conf /etc/collectd.d/
 
