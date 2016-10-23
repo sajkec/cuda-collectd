@@ -8,10 +8,6 @@ with my configuration and needs.
 
 ## installation
 
-Requires `collectd-python` package. On Centos 7,
-
-    $ yum install collectd-python
-
 While this is somewhat environment specific, based on the configuration 
 in `10-cuda-collectd.conf`, the module files should be located inside `/etc/collectd.d`,
 
